@@ -1,140 +1,182 @@
-//變數用小地鼠(捕獲DOM用id)(注意大小寫) /  函式小駝峰(動詞前)  / 類別大駝峰(名詞前)
-
-//新增
-//哪裡使用 哪裡捕獲
-const input_txt = document.querySelector("#input_txt");
-const add_btn = document.querySelector("#add_btn");
-//用let 會去改變值
+// JSON 檔案網址
+const url = "https://shannon945.github.io/farm_produce/data.json";
 let base_data = [];
-add_btn.addEventListener("click", addTodo);
-input_txt.addEventListener("keyup", (e) => {
-  //Enter 要大寫
-  if (e.key === "Enter") {
-    addTodo();
-  }
-});
-function addTodo() {
-  //先存輸入值
-  let obj = {
-    content: input_txt.value,
-    id: new Date().getTime(),
-    checked: "",
-  };
-  if (obj.content.trim() == "") {
-    alert("please fill in it !");
-    return;
-  } else {
-    base_data.unshift(obj);
-    input_txt.value = "";
-    //把外層的base_data傳入
-    //重新渲染 > 改篩選後
-    // renderList(base_data);
-    filterList();
-  }
+//當下資料庫
+let now_data = [];
+
+function getData() {
+  axios.get(url).then(function (response) {
+    ////不用重組物件 不用push 直接用=
+    base_data = response.data;
+    //迴圈出item才有值
+    // console.log(base_data.上價);
+    now_data = base_data;
+    renderData(base_data);
+  });
 }
+getData();
 
 //渲染
-const inner_list = document.querySelector("#inner_list");
-function renderList(base_data) {
+function renderData(showData) {
   let str = "";
-  base_data.forEach((item) => {
-    str += `<li data-id="${item.id}">
-          <label class="checkbox" for="">
-            <input type="checkbox" ${item.checked}/>
-            <span>${item.content}</span>
-          </label>
-          <a href="#" class="delete" id="btn_del">X</a>
-     </li>`;
+  showData.forEach((item) => {
+    str += `<tr>
+        <td>${item.作物名稱}</td>
+        <td>${item.上價}</td>
+        <td>${item.中價}</td>
+        <td>${item.下價}</td>
+        <td>${item.平均價}</td>
+        <td>${item.交易量}</td>
+        </tr>`;
   });
-  inner_list.innerHTML = str;
-  // console.log(btn_del);
+  let show_list = document.querySelector("#show_list");
+  show_list.innerHTML = str;
 }
-
-//刪除 / 打勾
-inner_list.addEventListener("click", (e) => {
-  // console.log(parseInt(e.target.closest("li").dataset.id));
-  //取出來的 id 會是字串型別記得幫它轉型成數字型別
-  let todo_id = parseInt(e.target.closest("li").dataset.id);
-  //如何選取span標籤的文字內容 並帶入alert???
-  // let del_contain = e.target.closest('li').find('label');
-  // console.log(del_contain);
-  // alert('Confirm delete ${}? ');
-  if (e.target.classList.contains("delete")) {
-    //取消 a 標籤預設行為
-    e.preventDefault();
-    let data_index = base_data.findIndex((item) => item.id === todo_id);
-    base_data.splice(data_index, 1);
-  } else {
-    base_data.forEach((item) => {
-      if (item.id === todo_id) {
-        if (item.checked === "") {
-          item.checked = "checked";
-        } else {
-          item.checked = "";
-        }
-      }
-    });
-  }
-  //重新渲染 > 改篩選後
-  // render(todoData);
-  filterList();
-});
 
 //換頁
-// const tab_list = document.querySelector('#tab_list');
-let tab_status = "all";
-//事件參數e 監聽不用放
-tab_list.addEventListener("click", changeTab);
-function changeTab(e) {
-  tab_status = e.target.dataset.tab;
-  ////透過 querySelectorAll 選取 tab 標籤底下的 li
-  let tabs_list = document.querySelectorAll("#tab_list li");
-  tabs_list.forEach((item) => {
-    if (item.dataset.tab === tab_status) {
-      item.classList.add("active");
-    } else {
+const buttonGroup = document.querySelector(".button-group");
+buttonGroup.addEventListener("click", (e) => {
+  //透過底下判斷式，確認點擊到的是否為 BUTTON
+  // 也可以用tagName
+  // console.log(e.target.nodeName);
+  if (e.target.nodeName === "BUTTON") {
+    //變數命名 注意不能重複
+    //記得用querySelectorAll 有All
+    const tabs = document.querySelectorAll(".button-group button");
+    tabs.forEach((item) => {
       item.classList.remove("active");
-    }
-    //以上也可透過forEach classList.remove 的方式先移除全部的 class active 樣式
-    //再用當下有被點擊到的才加 class 樣式 e.target.classList.add("active");
-  });
-  //再篩選 並渲染
-  filterList();
-}
+    });
+    // 已不須判斷 直接加上
+    e.target.classList.add("active");
+    //請取出埋藏於 HTML button 上的 data-type 屬性值
+    //將該值賦予到 type 變數上
+    let type = e.target.dataset.type;
+    let filter_data = [];
 
-//篩選
-function filterList() {
-  let filter_data = [];
-  if (tab_status === "all") {
-    filter_data = base_data;
-  } else if (tab_status === "work") {
-    filter_data = base_data.filter((item) => item.checked === "");
-  } else {
-    filter_data = base_data.filter((item) => item.checked === "checked");
+    ////極簡寫法
+    filter_data = base_data.filter((item) => item.種類代碼 === type);
+    // or
+    // filter_Data = base_data.filter((item) => item.種類代碼.match(type));
+
+    ////另兩種寫法
+    // 第一種
+    // if (type === 'N04') {
+    // filterData = data.filter((item) => item.種類代碼 === type);
+    // 第二種 邏輯包起來
+    // changeType(type);
+    // } else if (e.target.dataset.type === 'N05') {
+    // filterData = data.filter((item) => item.種類代碼 === 'N05');
+    // changeType(type);
+    // } else if (e.target.dataset.type === 'N06') {
+    // filterData = data.filter((item) => item.種類代碼 === 'N06');
+    // changeType(type);
+    // }
+    //呼叫 renderData 並傳入參數 filterData
+    ////判斷式若用邏輯包渲染 就不用再渲染 不然會空值
+    now_data = filter_data;
+    renderData(filter_data);
   }
-  const work_num = document.querySelector("#work_num");
-  let work_num_length = base_data.filter((item) => item.checked === "");
-  //length 拼錯字
-  work_num.textContent = work_num_length.length;
-  //增刪的渲染 都在篩選後才用
-  renderList(filter_data);
-}
-//初始化頁面
-//雖然初始頁籤在全部頁 但內容不一定
-// filterList();
+});
+////同樣邏輯包成函式
+// function changeType(type){
+//     //函式雖在判斷式內 但讀不到 需重新定義並傳入 >>> 後來發現也不需要@@
+//     // let filterData = [];
+//     filterData = data.filter((item) => item.種類代碼 === type);
+//     renderData(filterData);
+// };
 
-//刪除已完成
-//無捕獲也可以監聽???
-// const del_done = document.querySelector('#del_done');
-del_done.addEventListener("click", (e) => {
-  e.preventDefault();
-  let done_num = base_data.filter((item) => item.checked === "checked");
-  if (done_num.length > 0) {
-    alert("Confirm delete of all done ? ");
-    // let del_done_data = [];
-    // 直接將原始資料 篩選後取代
-    base_data = base_data.filter((item) => item.checked === "");
-    // 再次篩選渲染 刪除完的
-    filterList(base_data);
+//搜尋
+let search_data = [];
+const search = document.querySelector("#search");
+search.addEventListener("click", searchData);
+const crop_input = document.querySelector("#crop");
+crop_input.addEventListener("keyup", (e) => {
+  console.log(e.key);
+  if (e.key === "Enter") {
+    searchData(e);
+  }
+});
+function searchData(e) {
+  if (e.target.nodeName === "BUTTON" || e.target.nodeName === "INPUT") {
+    //刪除篩選的記號
+    const tabs = document.querySelectorAll(".button-group button");
+    tabs.forEach((item) => {
+      item.classList.remove("active");
+    });
+    //記得加value取值
+    if (crop_input.value.trim() == "") {
+      alert("請輸入作物名稱 !");
+      return;
+    } else {
+      let crop_input_value = crop_input.value;
+      //item記得選要用什麼key比對
+      search_data = base_data.filter((item) =>
+        item.作物名稱.match(crop_input_value)
+      );
+      let search_data_length = search_data.length;
+      if (search_data_length === 0) {
+        // const show_list = document.querySelector("#show_list");
+        show_list.innerHTML =
+          '<tr><td colspan="6" class="text-center p-3">查詢不到交易資訊QQ</td></tr>';
+      } else {
+        //紀錄當下使用此資料
+        now_data = search_data;
+        renderData(search_data);
+      }
+    }
+  }
+}
+
+//品項排序
+const sort_select = document.querySelector("#sort_select");
+sort_select.addEventListener("change", (e) => {
+  //用於選項少比對
+  switch (e.target.value) {
+    case "依上價排序":
+      selectChange("上價");
+      //記得每個 case 後方需透過 break; 終止
+      break;
+    case "依中價排序":
+      selectChange("中價");
+      break;
+    case "依下價排序":
+      selectChange("下價");
+      break;
+    case "依平均價排序":
+      selectChange("平均價");
+      break;
+    case "依交易量排序":
+      selectChange("交易量");
+      break;
+  }
+});
+
+//篩選或搜尋時 執行此排序函式
+function selectChange(value) {
+  //帶入 compareFunction 函式，並於函式內帶入 a 、 b 兩參數
+  now_data.sort(function (a, b) {
+    return a[value] - b[value];
+  });
+  renderData(now_data);
+}
+
+//大小排序
+////要選取按鈕父層再逐一比對是否為<i> 才能每個按鈕都有效果 (<thead class="js-sort-advanced">)
+const sort_btn = document.querySelector(".js-sort-advanced");
+sort_btn.addEventListener("click", (e) => {
+  if (e.target.nodeName === "I") {
+    //將點擊時取出埋藏於 i 標籤的 data-price 值
+    //取點擊的選項名稱 如:上價
+    let sortPrice = e.target.dataset.price;
+    //將點擊時取出埋藏於 i 標籤的 data-sort 值
+    //取點擊的排序 如:up
+    let sortCaret = e.target.dataset.sort;
+    if (sortCaret === "up") {
+      //取出a和b的sortPrice的值 並以b-a排序(大到小)
+      now_data.sort((a, b) => b[sortPrice] - a[sortPrice]);
+    } else {
+      now_data.sort((a, b) => a[sortPrice] - b[sortPrice]);
+    }
+    renderData(now_data);
   }
 });

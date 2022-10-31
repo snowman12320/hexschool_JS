@@ -5,9 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <link rel="stylesheet" href="all.css" />
   </head>
   <body>
-    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <div class="container">
+      <h1>SHOPPING LIST</h1>
+      <div class="card input">
+        <input id="input_txt" type="text" placeholder="Add item ..." />
+        <a href="#" class="btn_add" id="add_btn">+</a>
+      </div>
+      <div class="card card_list">
+        <ul class="tab" id="tab_list">
+          <li class="active" data-tab="all">ALL</li>
+          <li data-tab="work">UNDONE</li>
+          <li data-tab="done">DONE</li>
+        </ul>
+        <div class="cart_content">
+          <ul class="list" id="inner_list">
+            <li data-id="">
+              <label class="checkbox" for="">
+                <input type="checkbox" />
+                <span>Jersey</span>
+              </label>
+              <a href="#" class="delete" id="btn_del">X</a>
+            </li>
+            <li data-id="">
+              <label class="checkbox" for="">
+                <input type="checkbox" />
+                <span>Hat</span>
+              </label>
+              <a href="#" class="delete" id="btn_del">X</a>
+            </li>
+          </ul>
+          <div class="list_footer">
+            <p><span id="work_num">0</span> 個待完成項目</p>
+            <a href="#" id="del_done">清除已完成項目</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="all.js"></script>
   </body>
 </html>

@@ -13,6 +13,9 @@ input_txt.addEventListener("keyup", (e) => {
     addTodo();
   }
 });
+//可應用在 帳密登入
+// localStorage.setItem("content", input_txt.value);
+// input_txt_local = localStorage.getItem("content");
 function addTodo() {
   //先存輸入值
   let obj = {
@@ -25,6 +28,7 @@ function addTodo() {
     return;
   } else {
     base_data.unshift(obj);
+    localStorage.setItem("content", base_data);
     input_txt.value = "";
     //把外層的base_data傳入
     //重新渲染 > 改篩選後
@@ -55,13 +59,13 @@ inner_list.addEventListener("click", (e) => {
   // console.log(parseInt(e.target.closest("li").dataset.id));
   //取出來的 id 會是字串型別記得幫它轉型成數字型別
   let todo_id = parseInt(e.target.closest("li").dataset.id);
-  //如何選取span標籤的文字內容 並帶入alert???
-  // let del_contain = e.target.closest('li').find('label');
-  // console.log(del_contain);
-  // alert('Confirm delete ${}? ');
   if (e.target.classList.contains("delete")) {
     //取消 a 標籤預設行為
     e.preventDefault();
+    //如何選取span標籤的文字內容 並帶入alert???
+    let del_contain = e.target.closest("li").querySelector("span").textContent;
+    // 不用加引號 直接用反引號 即可印出變數
+    alert(`Confirm delete "${del_contain}" ? `);
     let data_index = base_data.findIndex((item) => item.id === todo_id);
     base_data.splice(data_index, 1);
   } else {
@@ -81,7 +85,6 @@ inner_list.addEventListener("click", (e) => {
 });
 
 //換頁
-// const tab_list = document.querySelector('#tab_list');
 let tab_status = "all";
 //事件參數e 監聽不用放
 tab_list.addEventListener("click", changeTab);

@@ -47,7 +47,7 @@ function renderList(base_data) {
             <input type="checkbox" ${item.checked}/>
             <span>${item.content}</span>
           </label>
-          <a href="#" class="delete" id="btn_del">X</a>
+          <a href="#" class="delete" id="btn_del"></a>
      </li>`;
   });
   inner_list.innerHTML = str;

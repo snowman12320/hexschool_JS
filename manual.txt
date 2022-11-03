@@ -1,0 +1,43 @@
+
+//npm模組管理
+npm install 模組名
+    update 模組名
+    uninstall 模組名
+
+開發中 (但不下載 如 webpack相關模組) 
+npm install 模組名 --save-dev 
+上線中 (如BS JQ 最新都會自動存)
+npm install 模組名 --save
+
+css/scss模組安裝
+npm官網有規則https://www.npmjs.com/package/css-loader
+載入css/scss檔需要 + webpack.config.js規則
+npm install --save-dev css-loader
+npm install sass-loader sass --save-dev
+
+package.json模組安裝紀錄
+npm install (會安裝dependencies內容)
+"dependencies":如BS/JQ 最新版本npm都會自動存這些模組名稱
+"devDependencies": 分享時 不上傳和下載 如webpack相關模組
+
+
+//webpack模組打包
+npm install webpack webpack-cli --save-dev 安裝兩種webpack的環境
+webpack.config.js 需官網複製 輸入src與輸出entry點資料夾的設定
+
+//js模組化
+export(src/index.js)、import(dist/bundle.js) 語法
+具名匯出 export default 變數、函式... >  import {變數、函式, ...} from 輸出檔路徑
+預設匯出 export 變數、函式... >  import 自訂名 from 輸出檔路徑
+
+"scripts" 客製化指令 一次輸出好幾個測試用指令
+npm run build 執行打包(可改用下方自訂名) js/css/scss都會打包成js(src/index.js+css+scss > dist/bundle.js)
+npm run + "dev":"webpack server --mode development"  開發中 詳細的程式碼解說
+npm run + "deploy":"webpack --mode production" 上線中 縮短成一行程式碼
+
+安裝伺服器 可自動刷新
+npm install webpack-dev-server --save-dev
+webpack.config.js加上"devServer"(包含port號設定、open:true自動開啟瀏覽器)
+
+---------------------------------------------------
+console.log(  );

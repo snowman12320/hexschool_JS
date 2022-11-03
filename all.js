@@ -52,6 +52,8 @@ buttonGroup.addEventListener("click", (e) => {
     //將該值賦予到 type 變數上
     let type = e.target.dataset.type;
     let filter_data = [];
+    // 切換篩選種類時，可以將 crop_input.value 清空。
+    crop_input.value = "";
 
     ////極簡寫法
     filter_data = base_data.filter((item) => item.種類代碼 === type);
@@ -91,7 +93,7 @@ const search = document.querySelector("#search");
 search.addEventListener("click", searchData);
 const crop_input = document.querySelector("#crop");
 crop_input.addEventListener("keyup", (e) => {
-  console.log(e.key);
+  // console.log(e.key);
   if (e.key === "Enter") {
     searchData(e);
   }

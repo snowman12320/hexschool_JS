@@ -58,14 +58,14 @@ function renderList(base_data) {
 inner_list.addEventListener("click", (e) => {
   // console.log(parseInt(e.target.closest("li").dataset.id));
   //取出來的 id 會是字串型別記得幫它轉型成數字型別
-  let todo_id = parseInt(e.target.closest("li").dataset.id); /**/
+  let todo_id = parseInt(e.target.closest("li").dataset.id); /******/
   if (e.target.classList.contains("delete")) {
     //取消 a 標籤預設行為
     e.preventDefault();
     //如何選取span標籤的文字內容 並帶入alert???
-    let del_contain = e.target.closest("li").querySelector("span").textContent;
+    let del_content = e.target.closest("li").querySelector("span").textContent;
     // 不用加引號 直接用反引號 即可印出變數
-    alert(`Confirm delete "${del_contain}" ? `);
+    alert(`Confirm delete "${del_content}" ? `);
     let data_index = base_data.findIndex((item) => item.id === todo_id); /**/
     base_data.splice(data_index, 1);
   } else {
@@ -118,8 +118,7 @@ function filterList() {
   //統計
   const work_num = document.querySelector("#work_num");
   //length 拼錯字
-  let work_num_length = base_data.filter((item) => item.checked === "").length;
-  work_num.textContent = work_num_length;
+  work_num.textContent = base_data.filter((item) => item.checked === "").length;
   //增刪的渲染 都在篩選後才用
   renderList(filter_data); /**/
 }

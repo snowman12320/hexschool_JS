@@ -1,6 +1,6 @@
 //變數用小地蛇(捕獲DOM用id)(注意大小寫) /  函式小駝峰(動詞前)  / 類別大駝峰(名詞前)
 
-//新增
+//新增 (熟悉)
 //哪裡使用 哪裡捕獲
 const input_txt = document.querySelector("#input_txt");
 const add_btn = document.querySelector("#add_btn");
@@ -20,7 +20,7 @@ function addTodo() {
   //先存輸入值
   let obj = {
     content: input_txt.value,
-    id: new Date().getTime(),
+    id: new Date().getTime() /**/,
     checked: "",
   };
   if (obj.content.trim() == "") {
@@ -31,9 +31,9 @@ function addTodo() {
     localStorage.setItem("content", base_data);
     input_txt.value = "";
     //把外層的base_data傳入
-    //重新渲染 > 改篩選後
+    //重新渲染 > 改篩選後再渲染
     // renderList(base_data);
-    filterList();
+    filterList(); /**/
   }
 }
 
@@ -54,11 +54,11 @@ function renderList(base_data) {
   // console.log(btn_del);
 }
 
-//刪除 / 打勾
+//刪除 / 打勾 (認識)
 inner_list.addEventListener("click", (e) => {
   // console.log(parseInt(e.target.closest("li").dataset.id));
   //取出來的 id 會是字串型別記得幫它轉型成數字型別
-  let todo_id = parseInt(e.target.closest("li").dataset.id);
+  let todo_id = parseInt(e.target.closest("li").dataset.id); /**/
   if (e.target.classList.contains("delete")) {
     //取消 a 標籤預設行為
     e.preventDefault();
@@ -66,7 +66,7 @@ inner_list.addEventListener("click", (e) => {
     let del_contain = e.target.closest("li").querySelector("span").textContent;
     // 不用加引號 直接用反引號 即可印出變數
     alert(`Confirm delete "${del_contain}" ? `);
-    let data_index = base_data.findIndex((item) => item.id === todo_id);
+    let data_index = base_data.findIndex((item) => item.id === todo_id); /**/
     base_data.splice(data_index, 1);
   } else {
     base_data.forEach((item) => {
@@ -84,7 +84,7 @@ inner_list.addEventListener("click", (e) => {
   filterList();
 });
 
-//換頁
+//換頁 (認識)
 let tab_status = "all";
 //事件參數e 監聽不用放
 tab_list.addEventListener("click", changeTab);
@@ -105,7 +105,7 @@ function changeTab(e) {
   filterList();
 }
 
-//篩選
+//篩選 (認識)
 function filterList() {
   let filter_data = [];
   if (tab_status === "all") {
@@ -115,24 +115,26 @@ function filterList() {
   } else {
     filter_data = base_data.filter((item) => item.checked === "checked");
   }
+  //統計
   const work_num = document.querySelector("#work_num");
-  let work_num_length = base_data.filter((item) => item.checked === "");
   //length 拼錯字
-  work_num.textContent = work_num_length.length;
+  let work_num_length = base_data.filter((item) => item.checked === "").length;
+  work_num.textContent = work_num_length;
   //增刪的渲染 都在篩選後才用
-  renderList(filter_data);
+  renderList(filter_data); /**/
 }
 //初始化頁面
 //雖然初始頁籤在全部頁 但內容不一定
 // filterList();
 
-//刪除已完成
+//刪除已完成 (熟悉)
 //無捕獲也可以監聽???
 // const del_done = document.querySelector('#del_done');
 del_done.addEventListener("click", (e) => {
   e.preventDefault();
   let done_num = base_data.filter((item) => item.checked === "checked");
   if (done_num.length > 0) {
+    /**/
     alert("Confirm delete of all done ? ");
     // let del_done_data = [];
     // 直接將原始資料 篩選後取代

@@ -113,8 +113,9 @@ function searchData(e) {
     } else {
       let crop_input_value = crop_input.value;
       //item記得選要用什麼key比對
-      search_data = base_data.filter((item) =>
-        item.作物名稱.match(crop_input_value)
+      search_data = base_data.filter(
+        (item) =>
+          item.作物名稱.match(crop_input_value) /**不用match找不到類似的 */
       );
       let search_data_length = search_data.length;
       if (search_data_length === 0) {
@@ -160,7 +161,7 @@ sort_select.addEventListener("change", (e) => {
 function selectChange(value) {
   //帶入 compareFunction 函式，並於函式內帶入 a 、 b 兩參數
   now_data.sort(function (a, b) {
-    return a[value] - b[value];
+    return a[value] - b[value]; /**要return 正確位置 */
   });
   renderData(now_data);
 }
@@ -178,6 +179,7 @@ sort_btn.addEventListener("click", (e) => {
     //取點擊的排序 如:up
     let sortCaret = e.target.dataset.sort;
     if (sortCaret === "up") {
+      /**點擊up就是要先看大的 大到小  */
       //取出a和b的sortPrice的值 並以b-a排序(大到小)
       now_data.sort((a, b) => b[sortPrice] - a[sortPrice]);
     } else {

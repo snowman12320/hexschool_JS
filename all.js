@@ -42,6 +42,7 @@ const inner_list = document.querySelector("#inner_list");
 function renderList(base_data) {
   let str = "";
   base_data.forEach((item) => {
+    /** */
     str += `<li data-id="${item.id}">
           <label class="checkbox" for="">
             <input type="checkbox" ${item.checked}/>
@@ -58,16 +59,22 @@ function renderList(base_data) {
 inner_list.addEventListener("click", (e) => {
   // console.log(parseInt(e.target.closest("li").dataset.id));
   //取出來的 id 會是字串型別記得幫它轉型成數字型別
-  let todo_id = parseInt(e.target.closest("li").dataset.id); /******/
+  /***parseInt***/
+  let todo_id = parseInt(e.target.closest("li").dataset.id);
+  /***contains("delete")***/
   if (e.target.classList.contains("delete")) {
     //取消 a 標籤預設行為
     e.preventDefault();
     //如何選取span標籤的文字內容 並帶入alert???
     let del_content = e.target.closest("li").querySelector("span").textContent;
     // 不用加引號 直接用反引號 即可印出變數
-    alert(`Confirm delete "${del_content}" ? `);
-    let data_index = base_data.findIndex((item) => item.id === todo_id); /**/
-    base_data.splice(data_index, 1);
+    let confirm_action = confirm(`Confirm delete "${del_content}" ? `);
+    if (confirm_action) {
+      let data_index = base_data.findIndex((item) => item.id === todo_id); /**/
+      base_data.splice(data_index, 1);
+    } else {
+      return;
+    }
   } else {
     base_data.forEach((item) => {
       if (item.id === todo_id) {
@@ -85,9 +92,10 @@ inner_list.addEventListener("click", (e) => {
 });
 
 //換頁 (認識)
-let tab_status = "all";
+let tab_status = "all"; /** */
 //事件參數e 監聽不用放
 tab_list.addEventListener("click", changeTab);
+/** */
 function changeTab(e) {
   tab_status = e.target.dataset.tab;
   ////透過 querySelectorAll 選取 tab 標籤底下的 li
@@ -118,6 +126,7 @@ function filterList() {
   //統計
   const work_num = document.querySelector("#work_num");
   //length 拼錯字
+  /** */
   work_num.textContent = base_data.filter((item) => item.checked === "").length;
   //增刪的渲染 都在篩選後才用
   renderList(filter_data); /**/
@@ -133,12 +142,18 @@ del_done.addEventListener("click", (e) => {
   e.preventDefault();
   let done_num = base_data.filter((item) => item.checked === "checked");
   if (done_num.length > 0) {
-    /**/
-    alert("Confirm delete of all done ? ");
-    // let del_done_data = [];
-    // 直接將原始資料 篩選後取代
-    base_data = base_data.filter((item) => item.checked === "");
-    // 再次篩選渲染 刪除完的
-    filterList(base_data);
+    let confirm_action = confirm("Confirm delete of all done ? ");
+    if (confirm_action) {
+      // let del_done_data = [];
+      // 直接將原始資料 篩選後取代
+      base_data = base_data.filter((item) => item.checked === "");
+      // 再次篩選渲染 刪除完的
+      /** */
+      filterList(base_data);
+    } else {
+      return;
+    }
+  } else {
+    alert("The done was empty. ");
   }
 });

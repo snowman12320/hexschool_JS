@@ -39,14 +39,15 @@ function addTodo() {
 
 //渲染
 const inner_list = document.querySelector("#inner_list");
+/** renderList(arr)*/
 function renderList(base_data) {
   let str = "";
-  base_data.forEach((item) => {
+  base_data.forEach((i) => {
     /** */
-    str += `<li data-id="${item.id}">
+    str += `<li data-id="${i.id}">
           <label class="checkbox" for="">
-            <input type="checkbox" ${item.checked}/>
-            <span>${item.content}</span>
+            <input type="checkbox" ${i.checked}/>
+            <span>${i.content}</span>
           </label>
           <a href="#" class="delete" id="btn_del"></a>
      </li>`;
@@ -60,8 +61,9 @@ inner_list.addEventListener("click", (e) => {
   // console.log(parseInt(e.target.closest("li").dataset.id));
   //取出來的 id 會是字串型別記得幫它轉型成數字型別
   /***parseInt***/
-  let todo_id = parseInt(e.target.closest("li").dataset.id);
+  let todo_id = parseInt(e.target.closest("li").dataset.id); /*****記得先取id */
   /***contains("delete")***/
+  /**或 e.target.classList.value === 'delete' */
   if (e.target.classList.contains("delete")) {
     //取消 a 標籤預設行為
     e.preventDefault();
@@ -70,6 +72,7 @@ inner_list.addEventListener("click", (e) => {
     // 不用加引號 直接用反引號 即可印出變數
     let confirm_action = confirm(`Confirm delete "${del_content}" ? `);
     if (confirm_action) {
+      /** 或 篩出要刪的以外留著 base_data = base_data.filter((i => item.id !== todo_id); */
       let data_index = base_data.findIndex((item) => item.id === todo_id); /**/
       base_data.splice(data_index, 1);
     } else {
@@ -92,7 +95,7 @@ inner_list.addEventListener("click", (e) => {
 });
 
 //換頁 (認識)
-let tab_status = "all"; /** */
+let tab_status = "all"; /*****記得先取 */
 //事件參數e 監聽不用放
 tab_list.addEventListener("click", changeTab);
 /** */
@@ -115,7 +118,7 @@ function changeTab(e) {
 
 //篩選 (認識)
 function filterList() {
-  let filter_data = [];
+  let filter_data = []; /**或 let filter_data;*/
   if (tab_status === "all") {
     filter_data = base_data;
   } else if (tab_status === "work") {

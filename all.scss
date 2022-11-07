@@ -150,6 +150,7 @@ input[type="text"] {
       height: 1rem;
       background: #fff;
       font-size: 30px;
+      // 用live serve會破圖
       background-image: url("https://i.imgur.com/7Q4RjFx.jpg");
       background-size: contain;
       @media (max-width: 575px) {

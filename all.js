@@ -24,7 +24,12 @@ function addTodo() {
     checked: "",
   };
   if (obj.content.trim() == "") {
-    alert("please fill in it !");
+    // alert("please fill in it !");
+    Swal.fire({
+      title: " Please fill in it ! ",
+      icon: "warning",
+      confirmButtonColor: "#1d4289",
+    });
     return;
   } else {
     base_data.unshift(obj);
@@ -70,14 +75,29 @@ inner_list.addEventListener("click", (e) => {
     //如何選取span標籤的文字內容 並帶入alert???
     let del_content = e.target.closest("li").querySelector("span").textContent;
     // 不用加引號 直接用反引號 即可印出變數
-    let confirm_action = confirm(`Confirm delete "${del_content}" ? `);
-    if (confirm_action) {
-      /** 或 篩出要刪的以外留著 base_data = base_data.filter((i => item.id !== todo_id); */
-      let data_index = base_data.findIndex((item) => item.id === todo_id); /**/
-      base_data.splice(data_index, 1);
-    } else {
-      return;
-    }
+    // let confirm_action = confirm(`Confirm delete "${del_content}" ? `);
+    // if (confirm_action) {
+    //   /** 或 篩出要刪的以外留著 base_data = base_data.filter((i => item.id !== todo_id); */
+    //   let data_index = base_data.findIndex((item) => item.id === todo_id); /**/
+    //   base_data.splice(data_index, 1);
+    // } else {
+    //   return;
+    // }
+    Swal.fire({
+      title: " Are you sure ",
+      text: ` Confirm delete "${del_content}" ? `,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#1d4289",
+      cancelButtonColor: "#c9082a",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        base_data = base_data.filter((item) => item.id !== todo_id);
+        Swal.fire("Deleted!", "Your item has been deleted.", "success");
+        filterList();
+      }
+    });
   } else {
     base_data.forEach((item) => {
       if (item.id === todo_id) {
@@ -145,18 +165,59 @@ del_done.addEventListener("click", (e) => {
   e.preventDefault();
   let done_num = base_data.filter((item) => item.checked === "checked");
   if (done_num.length > 0) {
-    let confirm_action = confirm("Confirm delete of all done ? ");
-    if (confirm_action) {
-      // let del_done_data = [];
-      // 直接將原始資料 篩選後取代
-      base_data = base_data.filter((item) => item.checked === "");
-      // 再次篩選渲染 刪除完的
-      /** */
-      filterList(base_data);
-    } else {
-      return;
-    }
+    // let confirm_action = confirm("Confirm delete of all done ? ");
+    // if (confirm_action) {
+    //   // 直接將原始資料 篩選後取代
+    //   base_data = base_data.filter((item) => item.checked === "");
+    //   // 再次篩選渲染 刪除完的
+    //   /** */
+    //   filterList(base_data);
+
+    // Swal.fire({
+    //   title: " Confirm delete of all done ? ",
+    //   icon: "question",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#1d4289",
+    //   cancelButtonColor: "#c9082a",
+    //   confirmButtonText: "Yes, delete it!",
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     base_data = base_data.filter((item) => item.checked === "");
+    //     Swal.fire("Deleted!", "Your all done has been deleted.", "success");
+    //     filterList();
+    //   } else {
+    //     return;
+    //   }
+    // });
+    // 需使用async() + await 不然會報錯
+    (async () => {
+      const { value: txt } = await Swal.fire({
+        title: "Input delete validation",
+        input: "text",
+        inputPlaceholder: "Input delete",
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (value === "delete") {
+              resolve();
+            } else {
+              resolve("You need to input delete :)");
+            }
+          });
+        },
+      });
+      if (txt) {
+        base_data = base_data.filter((item) => item.checked === "");
+        filterList();
+        Swal.fire("Your all done has been deleted.");
+      }
+    })();
+    //
   } else {
-    alert("The done was empty. ");
+    // alert("The done was empty. ");
+    Swal.fire({
+      title: "The done was empty.",
+      icon: "info",
+    });
   }
 });

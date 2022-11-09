@@ -3,6 +3,7 @@
 * {
   box-sizing: border-box;
   list-style: none;
+  font-family: "Baloo Tamma 2";
 }
 
 html {
@@ -76,6 +77,7 @@ input[type=text]::placeholder {
 .input {
   padding: 4px 4px 4px 1rem;
   display: flex;
+  justify-content: end;
 }
 
 .btn_add {
@@ -88,8 +90,9 @@ input[type=text]::placeholder {
   border-radius: 10px;
   background: #333;
   color: #fff;
-  font-size: 2rem;
+  font-size: 3rem;
   text-decoration: none;
+  padding-top: 10px;
 }
 
 .card_list {
@@ -263,4 +266,12 @@ input[type=text]::placeholder {
 }
 .checkbox input:checked ~ span::after {
   opacity: 1;
+}
+
+.swal2-icon-content {
+  padding-top: 15px;
+}
+
+input[type=text] {
+  width: 88%;
 }/*# sourceMappingURL=all.css.map */

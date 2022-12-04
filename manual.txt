@@ -23,18 +23,20 @@ export(src/index.js)、import(dist/bundle.js) 語法
 具名匯出 export 變數、函式... (多個值)  / 匯入  import {變數、函式, ...} from 輸出檔路徑
 //"scripts" 客製化指令 一次輸出好幾個測試用指令
 npm run build 執行打包(可改用下方自訂名) js/css/scss都會打包成js(src/index.js+css+scss > dist/bundle.js)
-npm run + "dev":"webpack server --mode development"  開發中 詳細的程式碼解說
+npm run + "dev":"webpack --mode development"  開發中 詳細的程式碼解說 單次打包
+npm run + "server":"webpack server --mode development"  開發中 自動打包
 npm run + "deploy":"webpack --mode production" 上線中 縮短成一行程式碼
+
+////css/scss模組安裝
+npm官網有規則https://www.npmjs.com/package/css-loader
+載入css/scss檔需要 + webpack.config.js規則
+npm install --save-dev css-loader / npm install --save-dev style-loader 
+npm install sass-loader sass --save-dev
 
 ////安裝伺服器 可自動刷新
 npm install webpack-dev-server --save-dev
 webpack.config.js加上"devServer"(包含port號設定、open:true自動開啟瀏覽器)
 
-////css/scss模組安裝
-npm官網有規則https://www.npmjs.com/package/css-loader
-載入css/scss檔需要 + webpack.config.js規則
-npm install --save-dev css-loader
-npm install sass-loader sass --save-dev
 ---------------------------------------------------
 卡片盒筆記
 1.
@@ -44,16 +46,32 @@ npm install webpack webpack-cli --save-dev
 2.
 [js模組化打包]
 npm run build 
-(build 是執行package.json中語法)
+(build 是執行package.json(各種套件設定檔)裡其中的一個指令縮寫 後面build改成dev或deploy)
 3.
 webpack.config.js
+設定各種模組設定檔js/css/scss ...
 4.
 ["scripts" 客製化指令 一次輸出好幾個測試用指令]
 package.json
 5.
+打包單次指令
 npm run + "dev"      :"webpack --mode development"  開發中 詳細的程式碼解說
 npm run + "deploy"   :"webpack --mode production" 上線中 縮短成一行程式碼
 6.
 預設匯出
 具名匯出
 ???有辦法將一個JS檔案裡，不同函式或變數或一段匿名函式拆開成不同JS檔，並引入到同一個JS(index.js)，然後再透過webpack打包成優化檔
+7.
+[css/scss模組安裝]
+
+8.
+打包自動指令
+[安裝伺服器 可自動刷新]
+???為何自動編譯時 scss更改不會刷新 還需要重新run dev再run serve才是刷新的
+
+9.
+載入第三方套件 axios - 以 import 為例
+npm install axios
+import axios form'axios'; (form 路徑沒有 自動去/node 找)
+在大型的專案中，會用到很多套件、使用各種不同類型的檔案、開發很多功能。
+透過模組化、自動化的方式將這些檔案進行處理(EX. 將 SCSS 編譯成 CSS)、打包(EX. 優化程式碼、減小程式碼體積)，除了加速網頁載入，也提升專案的維護性。

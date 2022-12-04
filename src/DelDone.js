@@ -1,6 +1,8 @@
+// exports default *;
+
 //刪除已完成 (熟悉)
 //無捕獲也可以監聽???
-// const del_done = document.querySelector('#del_done');
+const del_done = document.querySelector('#del_done');
 del_done.addEventListener("click", (e) => {
   e.preventDefault();
   let done_num = base_data.filter((item) => item.checked === "checked");
@@ -61,5 +63,3 @@ del_done.addEventListener("click", (e) => {
     });
   }
 });
-
-// exports default *;

@@ -9,19 +9,20 @@ module.exports = {
   module: {
     rules: [
       {
-        // test: /\.css$/i,
-        test: /\.s[ac]ss$/i,
+        test: /\.css$/i,
+        // test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
           "style-loader",
           // Translates CSS into CommonJS
           "css-loader",
           // Compiles Sass to CSS
-          "sass-loader",
+          // "sass-loader",
         ],
       },
     ],
   },
+  // 開伺服器用不到 應該會在開發完上線時 一次打包成一個上線版JS檔就好
   devServer: {
     static: {
         // dist改成 /

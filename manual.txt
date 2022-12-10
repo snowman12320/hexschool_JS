@@ -1,3 +1,5 @@
+使用webpack : 複製package.json + webpack.config.js 到 某專案最外層(或javascripts/ 打包完刪掉) > npm i 安裝套件 > 準備src/dist資料夾 > 設定 webpack.config.js路徑 > npm run deploy 打包模組 > 
+    刪除一開始的兩個檔案(或在複製到資料夾 打包完 刪除兩個檔案+node_module/)
 
 ////npm模組管理
 npm install 模組名
@@ -61,6 +63,7 @@ npm run + "deploy"   :"webpack --mode production" 上線中 縮短成一行程�
 預設匯出
 具名匯出
 ???有辦法將一個JS檔案裡，不同函式或變數或一段匿名函式拆開成不同JS檔，並引入到同一個JS(index.js)，然後再透過webpack打包成優化檔
+A: 無法，除非式函式或變數，通常會減少分檔，會增加文件溝通附載，除非大專案維護上就需要
 7.
 [css/scss模組安裝]
 
@@ -68,6 +71,7 @@ npm run + "deploy"   :"webpack --mode production" 上線中 縮短成一行程�
 打包自動指令
 [安裝伺服器 可自動刷新]
 ???為何自動編譯時 scss更改不會刷新 還需要重新run dev再run serve才是刷新的
+用老師寫法的dev即可以，但不需要，因為上線會一次打包，不用邊打包邊開發，除非是在vue框架中就會，它也有自動打包更新
 
 9.
 載入第三方套件 axios - 以 import 為例

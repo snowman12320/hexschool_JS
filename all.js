@@ -34,6 +34,8 @@ function addTodo() {
   } else {
     base_data.unshift(obj);
     localStorage.setItem("content", base_data);
+    // base_data = localStorage.getItem("content");
+
     input_txt.value = "";
     //把外層的base_data傳入
     //重新渲染 > 改篩選後再渲染
@@ -221,3 +223,65 @@ del_done.addEventListener("click", (e) => {
     });
   }
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//登入註冊相關
+const change_a = document.querySelector("form+a");
+const submitBTN = document.querySelector(".login button");
+const form = document.querySelector("form");
+//密碼確認
+const PWD = document.querySelector("#PWD");
+const PWDAgain = document.querySelector("#PWDAgain");
+let sitePath = window.location.pathname;
+const inputs = document.querySelectorAll("input");
+//登出相關
+const logoutBTN = document.querySelector("header button");
+//API相關
+let domain = "https://todoo.5xcamp.us";
+let url = "";
+let APIData = {};
+let listData = [];
+let tabStatus = "all";
+//新增資料用
+const addBTN = document.querySelector(".inputArea button");
+const addInput = document.querySelector(".inputArea input");
+//單筆資料更新(切換狀態/編輯修改/刪除)
+const listContent = document.querySelector(".listContent .list");
+
+//刪除全部用
+const deleteAllBTN = document.querySelector(".listFooter button");
+//切換tab(全部/待完成/已完成)用
+const tabArea = document.querySelector(".listArea .tab");
+function logout() {
+  url = `${domain}/users/sign_out`;
+  axios
+    .delete(url, {
+      //透過localStorage使用getItem將存在瀏覽器的資料取出
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+    .then((res) => {
+      // console.log(res);
+      Swal.fire({
+        icon: "success",
+        title: res.data.message,
+      }).then(() => {
+        //將storage 中的所有屬性移除。
+        localStorage.clear();
+        window.location = "./index.html";
+      });
+    })
+    .catch((error) => {
+      // console.log(error);
+      // response.data.error沒有設定資料 為false，所以reason ="" 會等於空字串
+      // console.log('data.message ',error.response.data.message);
+      // console.log('reason ',reason);
+      let reason = error.response.data.error ? error.response.data.error : "";
+      Swal.fire({
+        icon: "error",
+        title: error.response.data.message,
+        text: reason,
+      });
+    });
+}

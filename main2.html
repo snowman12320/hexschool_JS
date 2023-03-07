@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+    <!-- CSS only -->
+    <!-- <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    /> -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    /> -->
+    <link rel="stylesheet" href="all.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>SHOPPING LIST</h1>
+      <div class="card input">
+        <input id="input_txt" type="text" placeholder="Add item ..." />
+        <a href="#" class="btn_add" id="add_btn">+</a>
+      </div>
+      <div class="card card_list">
+        <ul class="tab" id="tab_list">
+          <li class="active" data-tab="all">ALL</li>
+          <li data-tab="work">UNDONE</li>
+          <li data-tab="done">DONE</li>
+        </ul>
+        <div class="cart_content">
+          <ul class="list" id="inner_list">
+            <li data-id="" class=" ">
+              <label class="checkbox" for="">
+                <input type="checkbox" />
+                <span>Jersey</span>
+              </label>
+              <a href="#" class="delete" id="btn_del"></a>
+            </li>
+            <li data-id="">
+              <label class="checkbox" for="">
+                <input type="checkbox" />
+                <span>Hat</span>
+              </label>
+              <a href="#" class="delete" id="btn_del"></a>
+            </li>
+          </ul>
+          <div class="list_footer">
+            <p><span id="work_num">0</span> 個待完成項目</p>
+            <a href="#" id="del_done">clear all done</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="all.js"></script>
+    <!--  -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,178 @@
+<!-- https://promooo.info/cwccontent.php?pid=94 -->
+<!-- https://flaviusmatis.github.io/simplePagination.js/#page-3 -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>分頁系統</title>
+    <!-- CSS連結 -->
+    <link rel="stylesheet" href="page.css" />
+
+    <!-- JQuery 連結 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- SimplePagination 連結 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js"></script>
+  </head>
+
+  <style>
+    body {
+      background-color: lightgray;
+    }
+
+    h1 {
+      font-size: 50px;
+      text-align: center;
+      color: brown;
+    }
+
+    .list-item {
+      background-color: white;
+      border: 1px solid gray;
+      padding: 10px;
+      margin: 10px;
+      width: 80%;
+      /* 置中 */
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 30px;
+    }
+
+    /* 頁面按鈕 */
+
+    .simple-pagination ul {
+      list-style: none;
+      text-align: center;
+      margin-bottom: 50px;
+      /* 固定在下方 */
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translate(-50%);
+      width: 100%;
+    }
+
+    .simple-pagination li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .simple-pagination li a {
+      font-size: 30px;
+      color: black;
+      padding: 10px 20px 10px 20px;
+      text-decoration: none;
+      border: 1px solid brown;
+      background-color: white;
+      box-shadow: 5px 5px 5px gray;
+    }
+
+    .simple-pagination .current {
+      color: brown;
+      background-color: yellow;
+      border: 1px solid brown;
+      font-size: 30px;
+      padding: 10px 20px 10px 20px;
+      box-shadow: 5px 5px 5px gray;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .simple-pagination li a {
+        font-size: 18px;
+        padding: 3px 3px 3px 3px;
+      }
+      .simple-pagination .current {
+        font-size: 20px;
+        padding: 3px 3px 3px 3px;
+      }
+    }
+  </style>
+
+  <body>
+    <h1>分頁系統</h1>
+
+    <!-- 所有項目 -->
+    <div id="list-wrapper">
+      <!-- 項目 -->
+      <div class="list-item">
+        <p>1</p>
+      </div>
+      <div class="list-item">
+        <p>2</p>
+        <img src="https://picsum.photos/300/200/?random=10">
+        <img src="https://picsum.photos/300/200/?random=10">
+        <img src="https://picsum.photos/300/200/?random=10">
+        <img src="https://picsum.photos/300/200/?random=10">
+        <img src="https://picsum.photos/300/200/?random=10">
+        <img src="https://picsum.photos/300/200/?random=10">
+        <img src="https://picsum.photos/300/200/?random=10">
+      </div>
+      <!-- <div class="list-item">
+        <p>3</p>
+      </div>
+      <div class="list-item">
+        <p>4</p>
+      </div>
+      <div class="list-item">
+        <p>5</p>
+      </div>
+      <div class="list-item">
+        <p>6</p>
+      </div>
+      <div class="list-item">
+        <p>7</p>
+      </div>
+      <div class="list-item">
+        <p>8</p>
+      </div>
+      <div class="list-item">
+        <p>9</p>
+      </div>
+      <div class="list-item">
+        <p>10</p>
+      </div>
+      <div class="list-item">
+        <p>11</p>
+      </div>
+      <div class="list-item">
+        <p>12</p>
+      </div>
+      <div class="list-item">
+        <p>13</p>
+      </div> -->
+    </div>
+
+    <!-- 頁數 -->
+    <div id="pagination-container"></div>
+
+    <!-- JQuery程式 -->
+    <script>
+      // 每個頁面要顯示幾個項目 
+      var perPage = 1;
+      // 總共有多少個項目
+      var numItems = $(".list-item").length;
+
+      $(".list-item").slice(perPage).hide();
+
+     ///////////////////////////////////////////////監聽分頁點擊//////////////////////////////////////////////
+      $("#pagination-container").pagination({
+        items: numItems,////分頁長度
+        itemsOnPage: perPage,////每頁 分頁數量
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        ////點擊的數字或前後
+        onPageClick: function (pageNumber) {
+          // 計算出 起始 以及結束
+          var from = perPage * (pageNumber - 1);////出發
+          var to = from + perPage;////終點
+          $(".list-item").hide().slice(from, to).show();
+        },
+      });
+    </script>
+  </body>
+</html>
